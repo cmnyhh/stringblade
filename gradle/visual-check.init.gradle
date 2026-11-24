@@ -1,0 +1,21 @@
+// gradle -I gradle/visual-check.init.gradle runVisualCheck
+allprojects { p ->
+    p.afterEvaluate {
+        def source = p.sourceSets.create('visualCheck') {
+            compileClasspath += p.sourceSets.main.output + p.sourceSets.main.compileClasspath
+            runtimeClasspath += p.sourceSets.main.output + p.sourceSets.main.runtimeClasspath
+        }
+        if (p.hasProperty('visualTacz')) {
+            def jar = p.files(new File(p.gradle.gradleUserHomeDir, 'tacz/tacz-1.2.0.jar'))
+            p.dependencies.add('visualCheckRuntimeOnly', jar)
+        }
+        p.neoForge.mods.huhu_dronepal.sourceSet(source)
+        p.neoForge.runs.create('visualCheck') {
+            client()
+            sourceSet = source
+            gameDirectory = p.layout.buildDirectory.dir('visual-check-client')
+            programArguments.addAll('--width','1280','--height','800','--quickPlaySingleplayer','inspection')
+            systemProperty 'dronepal.visual.dir', p.layout.projectDirectory.dir('artifacts/client').asFile.absolutePath
+        }
+    }
+}

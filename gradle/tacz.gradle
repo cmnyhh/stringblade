@@ -1,0 +1,35 @@
+repositories {
+    exclusiveContent {
+        forRepository { maven { url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup 'maven.modrinth' }
+    }
+}
+// Modrinth's immutable version ID selects the NeoForge 1.21.1 release.
+def pinnedTacz = 'maven.modrinth:timeless-and-classics-zero:O2Pfsh6w'
+def localJar = providers.gradleProperty('taczJar')
+def cachedJar = new File(gradle.gradleUserHomeDir, 'tacz/tacz-1.2.0.jar')
+def tacz = localJar.isPresent() ? files(localJar.get()) : cachedJar.isFile() ? files(cachedJar) : pinnedTacz
+dependencies { compileOnly tacz }
+if (providers.gradleProperty('playWithTacz').isPresent()) {
+    dependencies { runtimeOnly tacz }
+    neoForge.runs.named('client') {
+        gameDirectory = layout.projectDirectory.dir('run-tacz')
+    }
+}
+if (providers.gradleProperty('taczGameTest').isPresent()) {
+    sourceSets {
+        taczGameTest {
+            java.srcDir 'src/gameTestFixtures/java'
+            compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+        }
+    }
+    dependencies { taczGameTestRuntimeOnly tacz }
+    neoForge.mods.huhu_dronepal.sourceSet sourceSets.taczGameTest
+    neoForge.runs.create('taczGameTest') {
+        type = 'gameTestServer'
+        sourceSet = sourceSets.taczGameTest
+        gameDirectory = layout.buildDirectory.dir('tacz-gametest-server')
+        systemProperty 'neoforge.enabledGameTestNamespaces', 'huhu_dronepal'
+    }
+}

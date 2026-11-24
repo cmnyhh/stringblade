@@ -1,0 +1,20 @@
+// Patchouli is an optional dependency: the manual data is loaded by Patchouli when it is present,
+// and the guide-book recipe is gated by neoforge:mod_loaded. Nothing from Patchouli is bundled.
+// Build with -PplayWithPatchouli to put it on the client runtime classpath for a manual test run.
+repositories {
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.blamejared.com' } }
+        filter { includeGroup 'vazkii.patchouli' }
+    }
+}
+def patchouli = 'vazkii.patchouli:Patchouli:1.21.1-93-NEOFORGE'
+dependencies { compileOnly patchouli }
+if (providers.gradleProperty('playWithPatchouli').isPresent()) {
+    dependencies { runtimeOnly patchouli }
+    // Keep the TaCZ play directory (and its saves) when both flags are used.
+    if (!providers.gradleProperty('playWithTacz').isPresent()) {
+        neoForge.runs.named('client') {
+            gameDirectory = layout.projectDirectory.dir('run-patchouli')
+        }
+    }
+}

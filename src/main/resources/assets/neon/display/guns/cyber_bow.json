@@ -1,0 +1,50 @@
+{
+  "model": "neon:gun/cyber_bow_geo",
+  "texture": "neon:gun/cyber_bow",
+  "slot": "neon:gun/slot/cyber_bow",
+  "hud": "neon:gun/hud/cyber_bow",
+  "animation": "neon:cyber_bow",
+  "state_machine": "neon:bow_state_machine",
+  "use_default_animation": "rifle",
+  "third_person_animation": "default",
+  "player_animator_3rd": "tacz:rifle_default.player_animation",
+  "show_crosshair": false,
+  "iron_zoom": 1.2,
+  "zoom_model_fov": 65,
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.59,
+        0.59,
+        0.59
+      ],
+      "ground": [
+        0.48,
+        0.48,
+        0.48
+      ],
+      "fixed": [
+        0.39,
+        0.39,
+        0.39
+      ]
+    }
+  },
+  "sounds": {
+    "shoot": "neon:cyber_bow/shoot",
+    "shoot_3p": "neon:cyber_bow/shoot",
+    "reload_empty": "neon:cyber_bow/nock",
+    "reload_tactical": "neon:cyber_bow/nock"
+  },
+  "muzzle_flash": {
+    "type": "default",
+    "scale": 0.0,
+    "first_person_flash": null,
+    "first_person_smoke": null,
+    "third_person_flash": null,
+    "third_person_smoke": null
+  },
+  "ammo": {
+    "tracer_color": "#FF0A6E"
+  }
+}

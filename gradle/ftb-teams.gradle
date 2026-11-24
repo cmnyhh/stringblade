@@ -1,0 +1,23 @@
+repositories {
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.ftb.dev/releases' } }
+        filter { includeGroup 'dev.ftb.mods' }
+    }
+}
+def localOrModule = { String filename, String notation ->
+    def cached = new File(gradle.gradleUserHomeDir, "ftb/$filename")
+    cached.isFile() ? files(cached) : dependencies.create(notation) { transitive = false }
+}
+def teams = localOrModule('ftb-teams-neoforge-2101.1.12.jar', 'dev.ftb.mods:ftb-teams-neoforge:2101.1.12')
+dependencies { compileOnly teams }
+if (providers.gradleProperty('ftbTeamsGameTest').isPresent()) {
+    if (!providers.gradleProperty('taczGameTest').isPresent()) throw new GradleException('Use -PtaczGameTest -PftbTeamsGameTest together')
+    sourceSets.taczGameTest.java.srcDir 'src/ftbTeamsGameTest/java'
+    def library = localOrModule('ftb-library-neoforge-2101.1.40.jar', 'dev.ftb.mods:ftb-library-neoforge:2101.1.40')
+    def architectury = localOrModule('architectury-13.0.12-neoforge.jar', 'maven.modrinth:architectury-api:xGfBrBzj')
+    dependencies {
+        taczGameTestImplementation teams
+        taczGameTestImplementation library
+        taczGameTestRuntimeOnly architectury
+    }
+}

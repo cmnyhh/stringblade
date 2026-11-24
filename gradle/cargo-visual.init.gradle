@@ -1,0 +1,17 @@
+// Isolated client that opens the terminal panel and the cargo hold and screenshots both.
+// The copied game directory carries options.txt lang:zh_cn, so the capture shows shipped Chinese
+// titles. gradlew -I gradle/cargo-visual.init.gradle runCargoVisual
+allprojects { p -> p.afterEvaluate {
+    def source = p.sourceSets.create('cargoVisual') {
+        compileClasspath += p.sourceSets.main.output + p.sourceSets.main.compileClasspath
+        runtimeClasspath += p.sourceSets.main.output + p.sourceSets.main.runtimeClasspath
+    }
+    p.neoForge.mods.huhu_dronepal.sourceSet(source)
+    p.neoForge.runs.create('cargoVisual') {
+        client()
+        sourceSet = source
+        gameDirectory = p.layout.buildDirectory.dir('cargo-visual-client')
+        programArguments.addAll('--width','1280','--height','800','--quickPlaySingleplayer','inspection')
+        systemProperty 'dronepal.cargo.dir', p.layout.projectDirectory.dir('artifacts/client').asFile.absolutePath
+    }
+} }

@@ -1,0 +1,9 @@
+{
+  "name": "neon.gun.cyber_bow",
+  "tooltip": "neon.gun.cyber_bow.desc",
+  "data": "neon:cyber_bow",
+  "display": "neon:cyber_bow",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 85
+}

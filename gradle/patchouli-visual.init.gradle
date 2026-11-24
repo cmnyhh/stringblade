@@ -1,0 +1,19 @@
+// Isolated client that loads the shipped Patchouli book and screenshots it.
+// gradlew -PplayWithPatchouli -I gradle/patchouli-visual.init.gradle runPatchouliVisual
+allprojects { p ->
+    p.afterEvaluate {
+        def source = p.sourceSets.create('patchouliVisual') {
+            compileClasspath += p.sourceSets.main.output + p.sourceSets.main.compileClasspath
+            runtimeClasspath += p.sourceSets.main.output + p.sourceSets.main.runtimeClasspath
+        }
+        p.neoForge.mods.huhu_dronepal.sourceSet(source)
+        p.neoForge.runs.create('patchouliVisual') {
+            client()
+            sourceSet = source
+            gameDirectory = p.layout.buildDirectory.dir('patchouli-visual-client')
+            programArguments.addAll('--width', '1280', '--height', '800', '--quickPlaySingleplayer', 'inspection')
+            systemProperty 'dronepal.patchouli.dir', p.layout.projectDirectory.dir('artifacts/client').asFile.absolutePath
+            systemProperty 'dronepal.patchouli.report', p.layout.projectDirectory.file('artifacts/client/patchouli-report.json').asFile.absolutePath
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "model": "neon:ammo/cyber_arrow_geo",
+  "texture": "neon:gun/cyber_bow",
+  "slot": "neon:ammo/slot/cyber_arrow",
+  "tracer_color": "#FF0A6E",
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.72,
+        0.72,
+        0.72
+      ],
+      "ground": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "fixed": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    }
+  }
+}

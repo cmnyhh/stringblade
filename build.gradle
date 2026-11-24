@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+group = 'dev.neon'
+version = '1.1.0'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+neoForge {
+    version = '21.1.267'
+    mods { neonquiver { sourceSet sourceSets.main } }
+}
+repositories {
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.theillusivec4.top' } }
+        filter { includeGroup 'top.theillusivec4.curios' }
+    }
+    exclusiveContent {
+        forRepository { maven { url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup 'maven.modrinth' }
+    }
+}
+dependencies {
+    implementation 'top.theillusivec4.curios:curios-neoforge:9.2.2+1.21.1'
+    // TaCZ 1.2.0-hotfix for NeoForge 1.21.1, resolved from Modrinth's maven
+    compileOnly 'maven.modrinth:timeless-and-classics-zero:tJiZL0He'
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }

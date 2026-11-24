@@ -1,0 +1,14 @@
+allprojects { p -> p.afterEvaluate {
+    def source = p.sourceSets.create('batteryVisual') {
+        compileClasspath += p.sourceSets.main.output + p.sourceSets.main.compileClasspath
+        runtimeClasspath += p.sourceSets.main.output + p.sourceSets.main.runtimeClasspath
+    }
+    p.neoForge.mods.huhu_dronepal.sourceSet(source)
+    p.neoForge.runs.create('batteryVisual') {
+        client()
+        sourceSet = source
+        gameDirectory = p.layout.buildDirectory.dir('battery-visual-client')
+        programArguments.addAll('--width','1280','--height','800','--quickPlaySingleplayer','inspection')
+        systemProperty 'dronepal.battery.screenshot', p.layout.projectDirectory.file('artifacts/client/battery-tooltip-client.png').asFile.absolutePath
+    }
+} }

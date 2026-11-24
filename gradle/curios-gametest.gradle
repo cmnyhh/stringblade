@@ -1,0 +1,14 @@
+// Run with ./gradlew -PcuriosGameTest runCuriosGameTest.
+sourceSets {
+    curiosGameTest {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+neoForge.mods.huhu_dronepal.sourceSet sourceSets.curiosGameTest
+neoForge.runs.create('curiosGameTest') {
+    type = 'gameTestServer'
+    sourceSet = sourceSets.curiosGameTest
+    gameDirectory = layout.buildDirectory.dir('curios-gametest-server')
+    systemProperty 'neoforge.enabledGameTestNamespaces', 'huhu_dronepal'
+}
