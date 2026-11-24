@@ -5,7 +5,7 @@ plugins {
 }
 version = '1.1.0'
 group = 'dev.neon'
-base { archivesName = '弦切-1.20.1' }
+base { archivesName = 'Stringblade-1.20.1' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
