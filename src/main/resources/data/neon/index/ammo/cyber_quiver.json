@@ -1,0 +1,7 @@
+{
+  "name": "neon.ammo.cyber_arrow",
+  "display": "neon:cyber_quiver",
+  "stack_size": 32,
+  "sort": 85,
+  "tooltip": "neon.ammo.cyber_arrow.desc"
+}

@@ -1,0 +1,14 @@
+{
+  "neon.pack.name": "Neon Archery",
+  "neon.pack.desc": "Stringblade and its rechargeable Arc Quiver.",
+  "neon.gun.cyber_bow": "Stringblade",
+  "neon.gun.cyber_bow.desc": "Charge the quiver first. Hold fire to draw, release to shoot. A longer draw flies faster and hits harder.",
+  "neon.ammo.cyber_quiver": "Arc Charge",
+  "neon.ammo.cyber_arrow": "Arc Charge",
+  "neon.ammo.cyber_arrow.desc": "Shots available, derived from the quiver's energy.",
+  "neon.quiver.name": "Arc Quiver",
+  "neon.quiver.desc": "Energy quiver. Feed it FE, or right-click with redstone for one shot.",
+  "neon.quiver.energy.line": "Energy: %1$s / %2$s FE",
+  "neon.quiver.energy.shots": "Charged shots: %1$s / %2$s",
+  "neon.quiver.energy.empty": "Empty — right-click with redstone dust for one shot, or connect FE"
+}

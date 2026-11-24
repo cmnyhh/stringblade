@@ -1,0 +1,132 @@
+{
+  "script": "neon:bow_logic",
+  "ammo": "neon:cyber_quiver",
+  "ammo_amount": 1,
+  "bolt": "open_bolt",
+  "rpm": 100,
+  "bullet": {
+    "life": 3,
+    "bullet_amount": 1,
+    "damage": 24,
+    "tracer_count_interval": 0,
+    "extra_damage": {
+      "armor_ignore": 0,
+      "head_shot_multiplier": 1.4,
+      "damage_adjust": [
+        {
+          "distance": 24,
+          "damage": 24
+        },
+        {
+          "distance": 48,
+          "damage": 19
+        },
+        {
+          "distance": "infinite",
+          "damage": 15
+        }
+      ]
+    },
+    "speed": 72,
+    "gravity": 0.03,
+    "knockback": 0.12,
+    "friction": 0.018,
+    "ignite": false,
+    "pierce": 1
+  },
+  "fire_sound": {
+    "fire_multiplier": 0.35,
+    "silence_multiplier": 0.35
+  },
+  "reload": {
+    "type": "magazine",
+    "feed": {
+      "empty": 0.43,
+      "tactical": 0.43
+    },
+    "cooldown": {
+      "empty": 0.72,
+      "tactical": 0.72
+    }
+  },
+  "charging": {
+    "semi": {
+      "type": "hold",
+      "increase_per_tick": 0.05,
+      "decrease_per_tick": 1,
+      "decrease_on_fire": 1,
+      "max_charge": 1,
+      "fire_threshold": 0.25,
+      "charge_during_cooldown": false
+    }
+  },
+  "fire_mode": [
+    "semi"
+  ],
+  "draw_time": 0.48,
+  "put_away_time": 0.34,
+  "aim_time": 0.23,
+  "sprint_time": 0.2,
+  "weight": 2,
+  "movement_speed": {
+    "base": 0,
+    "aim": -0.1,
+    "reload": -0.04
+  },
+  "inaccuracy": {
+    "stand": 1,
+    "move": 1.8,
+    "sneak": 0.65,
+    "lie": 0.45,
+    "aim": 0.1
+  },
+  "recoil": {
+    "pitch": [
+      {
+        "time": 0,
+        "value": [
+          0,
+          0
+        ]
+      },
+      {
+        "time": 0.07,
+        "value": [
+          0.55,
+          0.55
+        ]
+      },
+      {
+        "time": 0.22,
+        "value": [
+          0,
+          0
+        ]
+      }
+    ],
+    "yaw": [
+      {
+        "time": 0,
+        "value": [
+          0,
+          0
+        ]
+      },
+      {
+        "time": 0.07,
+        "value": [
+          0.05,
+          0.05
+        ]
+      },
+      {
+        "time": 0.22,
+        "value": [
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "allow_attachment_types": []
+}

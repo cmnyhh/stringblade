@@ -1,0 +1,53 @@
+// Stringblade for Minecraft 1.20.1 (Forge 47.x). 1.20.1 predates NeoForge, so this is a separate toolchain.
+plugins {
+    id 'eclipse'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+version = '1.1.0'
+group = 'dev.neon'
+base { archivesName = '弦切-1.20.1' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    // Curios/TaCZ refmaps are authored in SRG names; remap them for a dev runtime.
+    def mixinProps = [
+            'mixin.env.remapRefMap'        : 'true',
+            'mixin.env.refMapRemappingFile': "${buildDir}/createSrgToMcp/output.srg"
+    ]
+    runs {
+        client {
+            workingDirectory project.file('run-client')
+            mixinProps.each { k, v -> property k, v.toString() }
+        }
+        server {
+            workingDirectory project.file('run-server')
+            mixinProps.each { k, v -> property k, v.toString() }
+            args '--nogui'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { name = 'IllusiveNetworks'; url = 'https://maven.theillusivec4.top' }
+    exclusiveContent {
+        forRepository { maven { url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup 'maven.modrinth' }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+    compileOnly 'top.theillusivec4.curios:curios-forge:5.14.1+1.20.1:api'
+    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:5.14.1+1.20.1')
+    // TaCZ 1.2.0-hotfix for Forge 1.20.1, resolved from Modrinth's maven
+    compileOnly fg.deobf('maven.modrinth:timeless-and-classics-zero:4yAbMXbz')
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+// Forge 1.20.1 has no [[mixins]] entry in mods.toml; the config must be named in the jar manifest.
+// Gradle rewrites the manifest, so a resources META-INF/MANIFEST.MF alone is not enough.
+jar {
+    manifest { attributes('MixinConfigs': 'neonquiver.mixins.json') }
+}

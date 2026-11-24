@@ -1,0 +1,49 @@
+{
+  "type": "tacz:gun_smith_table_crafting",
+  "materials": [
+    {
+      "item": {
+        "item": "minecraft:leather"
+      },
+      "count": 8
+    },
+    {
+      "item": {
+        "item": "minecraft:string"
+      },
+      "count": 4
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_ingot"
+      },
+      "count": 4
+    },
+    {
+      "item": {
+        "item": "minecraft:copper_ingot"
+      },
+      "count": 6
+    },
+    {
+      "item": {
+        "item": "minecraft:redstone"
+      },
+      "count": 8
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      },
+      "count": 2
+    }
+  ],
+  "result": {
+    "type": "custom",
+    "item": {
+      "item": "tacz:ammo_box",
+      "count": 1,
+      "nbt": "{CustomModelData:765431,Level:0,AmmoId:\"neon:cyber_quiver\",AmmoCount:0,display:{Name:'{\"translate\":\"neon.quiver.name\",\"italic\":false}'}}"
+    }
+  }
+}

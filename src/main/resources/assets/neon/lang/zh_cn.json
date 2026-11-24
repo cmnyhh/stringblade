@@ -1,0 +1,14 @@
+{
+  "neon.pack.name": "霓光弓具",
+  "neon.pack.desc": "弦切，配可反复充能的弧光箭筒。",
+  "neon.gun.cyber_bow": "弦切",
+  "neon.gun.cyber_bow.desc": "先为箭筒充能。按住射击键蓄力，松开即射；蓄得越满，箭越快、伤害越高。",
+  "neon.ammo.cyber_quiver": "弧光能量",
+  "neon.ammo.cyber_arrow": "弧光能量",
+  "neon.ammo.cyber_arrow.desc": "由箭筒电量换算得出的可射击次数。",
+  "neon.quiver.name": "弧光箭筒",
+  "neon.quiver.desc": "储能箭筒。接入 FE 充能，或手持红石右键补充一发。",
+  "neon.quiver.energy.line": "能量：%1$s / %2$s FE",
+  "neon.quiver.energy.shots": "可射次数：%1$s / %2$s",
+  "neon.quiver.energy.empty": "能量耗尽——手持红石右键可补一发，或接入 FE"
+}
