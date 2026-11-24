@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -19,22 +17,13 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 @EventBusSubscriber(modid = "neonquiver", value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class QuiverBackLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
-    private static final ModelResourceLocation MODEL = ModelResourceLocation.standalone(
-            ResourceLocation.fromNamespaceAndPath("neonquiver", "item/arc_quiver"));
-
     private QuiverBackLayer(PlayerRenderer renderer) {
         super(renderer);
-    }
-
-    @SubscribeEvent
-    public static void registerModel(ModelEvent.RegisterAdditional event) {
-        event.register(MODEL);
     }
 
     @SubscribeEvent
@@ -82,8 +71,11 @@ public final class QuiverBackLayer extends RenderLayer<AbstractClientPlayer, Pla
             poses.mulPose(Axis.YP.rotationDegrees(90));  // Textured broad face points toward the rear.
             poses.scale(1.25F, 1.25F, 1.25F);
             var client = Minecraft.getInstance();
+            // The stack's own model (CustomModelData override included), resolved exactly like the
+            // inventory icon, so no standalone-MRL registration can go missing.
+            var model = client.getItemRenderer().getModel(stack, player.level(), player, 0);
             client.getItemRenderer().render(stack, ItemDisplayContext.NONE, false, poses, buffers,
-                    light, OverlayTexture.NO_OVERLAY, client.getModelManager().getModel(MODEL));
+                    light, OverlayTexture.NO_OVERLAY, model);
         } finally {
             poses.popPose();
         }
