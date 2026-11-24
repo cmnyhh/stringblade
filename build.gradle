@@ -42,7 +42,9 @@ dependencies {
     compileOnly 'top.theillusivec4.curios:curios-forge:5.14.1+1.20.1:api'
     runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:5.14.1+1.20.1')
     // TaCZ 1.2.0-hotfix for Forge 1.20.1, resolved from Modrinth's maven
-    compileOnly fg.deobf('maven.modrinth:timeless-and-classics-zero:4yAbMXbz')
+    // The published jar is SRG-named, but SRG only renames members, not classes, and this mod
+    // calls TaCZ's own methods - so it compiles without a deobf step (and CI needs no remap repo).
+    compileOnly 'maven.modrinth:timeless-and-classics-zero:4yAbMXbz'
 }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 
