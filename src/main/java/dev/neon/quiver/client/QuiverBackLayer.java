@@ -11,14 +11,11 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -27,24 +24,17 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 /**
  * Draws the worn Arc Quiver on the player's back.
  *
- * <p>1.20.1 has no {@code ModelResourceLocation.standalone}: a standalone model is
- * {@code new ModelResourceLocation(ResourceLocation, "standalone")}. The variant is not part of the
- * loaded json path (only {@code assets/neonquiver/models/item/arc_quiver.json} is read), but it is
- * part of the map key, so registration and lookup share the same constant.</p>
+ * <p>Renders the stack's own baked item model — the exact model the inventory icon already uses —
+ * instead of a separately registered standalone model. A standalone {@code #standalone} MRL is baked
+ * lazily by model-pipeline mods (ModernFix's dynamic resources, for one) and falls back to blockstate
+ * lookup, which fails with {@code Unknown blockstate property: 'standalone'} and leaves the missing
+ * model on the player's back (the purple cube).</p>
  */
 @Mod.EventBusSubscriber(modid = "neonquiver", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class QuiverBackLayer
         extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
-    private static final ModelResourceLocation MODEL = new ModelResourceLocation(
-            new ResourceLocation("neonquiver", "item/arc_quiver"), "standalone");
-
     private QuiverBackLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> parent) {
         super(parent);
-    }
-
-    @SubscribeEvent
-    public static void registerModel(ModelEvent.RegisterAdditional event) {
-        event.register(MODEL);
     }
 
     @SubscribeEvent
@@ -94,8 +84,11 @@ public final class QuiverBackLayer
             poses.mulPose(Axis.YP.rotationDegrees(90));  // Textured broad face points toward the rear.
             poses.scale(1.25F, 1.25F, 1.25F);
             var client = Minecraft.getInstance();
+            // The stack's own model (CustomModelData override included), resolved exactly like the
+            // inventory icon, so no standalone-MRL registration can go missing.
+            var model = client.getItemRenderer().getModel(stack, player.level(), player, 0);
             client.getItemRenderer().render(stack, ItemDisplayContext.NONE, false, poses, buffers,
-                    light, OverlayTexture.NO_OVERLAY, client.getModelManager().getModel(MODEL));
+                    light, OverlayTexture.NO_OVERLAY, model);
         } finally {
             poses.popPose();
         }
