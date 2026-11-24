@@ -40,6 +40,7 @@
   ],
   "result": {
     "type": "custom",
+    "group": "misc",
     "item": {
       "item": "tacz:ammo_box",
       "count": 1,
