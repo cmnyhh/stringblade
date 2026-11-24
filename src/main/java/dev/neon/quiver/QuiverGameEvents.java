@@ -4,8 +4,10 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -58,5 +60,15 @@ public final class QuiverGameEvents {
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         QuiverCharge.onRightClickItem(event);
+    }
+
+    /**
+     * Field recharge: an empty quiver tops itself up from the FE items the player carries, so a dry
+     * quiver no longer means walking back to a charging pad (see {@link QuiverRecharge}).
+     */
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        if (event.player instanceof ServerPlayer server) QuiverRecharge.tick(server);
     }
 }
