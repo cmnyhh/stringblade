@@ -18,8 +18,7 @@ import net.minecraftforge.items.IItemHandler;
  *
  * <p>Design choices:</p>
  * <ul>
- *   <li>Only fires when the quiver is actually empty, so a mostly-full quiver never causes work —
- *       the check is two tag reads and it runs once every {@value #CHECK_INTERVAL} ticks.</li>
+ *   <li>Only fires when the quiver is actually empty, so a mostly-full quiver never causes work 閳? *       the check is two tag reads and it runs once every {@value #CHECK_INTERVAL} ticks.</li>
  *   <li>At most {@link #BATCH} FE per cycle, so a 1M FE battery is never flattened in one tick.</li>
  *   <li>Emptiest items first: a nearly-dead cell empties before a full one, which is what players
  *       expect from "use up the dregs first".</li>
@@ -34,6 +33,7 @@ public final class QuiverRecharge {
     private static final int BATCH = QuiverEnergy.PER_SHOT * 4;
     /** Vanilla player inventory: 36 main slots; armour and offhand are deliberately excluded. */
     private static final int MAIN_SLOTS = 36;
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("neonquiver/recharge");
 
     private QuiverRecharge() {}
 
@@ -45,7 +45,14 @@ public final class QuiverRecharge {
         int want = Math.min(BATCH, QuiverEnergy.CAPACITY - QuiverEnergy.getEnergy(quiver));
         if (want <= 0) return;
         int pulled = pull(player, quiver, want);
-        if (pulled > 0) QuiverEnergy.addEnergy(quiver, pulled);
+        if (pulled > 0) {
+            QuiverEnergy.addEnergy(quiver, pulled);
+            LOGGER.debug("Quiver recharged: +{} FE from carried items ({} / {} shots)", pulled,
+                    QuiverEnergy.getShots(quiver), QuiverEnergy.SHOTS);
+        } else if (player.tickCount % 200 == 0) {
+            // Once per 10 s at most: a dry player with no FE items would otherwise log twice a second.
+            LOGGER.debug("Quiver empty and no FE source found in inventory or back slot");
+        }
     }
 
     /** The worn quiver when there is one, otherwise the first quiver in the main inventory. */
