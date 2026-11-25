@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "package": "dev.neon.quiver.mixin",
   "mixins": [
+    "AmmoBarMixin",
     "AmmoBoxChargeMixin",
     "AmmoCreativeMixin",
     "AmmoExtractMixin",
