@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "package": "dev.neon.quiver.mixin",
   "mixins": [
+    "AmmoBarMixin",
     "GunInventoryMixin",
     "ScriptInventoryMixin",
     "ShootInventoryMixin",
